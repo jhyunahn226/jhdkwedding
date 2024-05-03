@@ -1,10 +1,8 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/enum.dart';
+import 'package:jhdkwedding/constants/sizes.dart';
 
 void main() {
   runApp(const JHDKWedding());
@@ -90,19 +88,25 @@ class _MyHomePageState extends State<MainScreen> {
               ? const NeverScrollableScrollPhysics()
               : const PageScrollPhysics(),
           children: <Widget>[
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned.fill(
+                  child: Image.asset(
+                    'assets/photos/1.jpg',
+                    fit: BoxFit.fitHeight,
+                  ),
+                ),
+              ],
+            ),
             Container(
               child: const Center(
-                child: Text('1'),
+                child: Text('두번째 페이지'),
               ),
             ),
             Container(
               child: const Center(
-                child: Text('2'),
-              ),
-            ),
-            Container(
-              child: const Center(
-                child: Text('3'),
+                child: Text('세번째 페이지'),
               ),
             ),
           ],
