@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/enum.dart';
-import 'package:jhdkwedding/constants/sizes.dart';
 
 void main() {
   runApp(const JHDKWedding());
@@ -20,6 +19,7 @@ class JHDKWedding extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'Pretendard',
+        primaryColor: ColorEnum.white,
         splashFactory: NoSplash.splashFactory,
         scaffoldBackgroundColor: ColorEnum.white,
         dialogBackgroundColor: ColorEnum.white,
@@ -37,14 +37,13 @@ class JHDKWedding extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
         ),
       ),
-      home: const MainScreen(title: 'Flutter Demo Home Page'),
+      home: const MainScreen(),
     );
   }
 }
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key, required this.title});
-  final String title;
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MyHomePageState();
@@ -61,55 +60,58 @@ class _MyHomePageState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isWebMobile = kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android);
     return Scaffold(
-      body: Listener(
-        onPointerSignal: (pointerSignal) {
-          if (pointerSignal is PointerScrollEvent) {
-            if (pointerSignal.scrollDelta.dy > 0 && _pageController.page! < 2) {
-              // 아래로 스크롤
-              _pageController.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeIn,
-              );
-            } else if (pointerSignal.scrollDelta.dy < 0 &&
-                _pageController.page! > 0) {
-              // 위로 스크롤
-              _pageController.previousPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeIn,
-              );
+      body: SafeArea(
+        bottom: false,
+        child: Listener(
+          onPointerSignal: (pointerSignal) {
+            if (pointerSignal is PointerScrollEvent) {
+              if (pointerSignal.scrollDelta.dy > 0 &&
+                  _pageController.page! < 2) {
+                // 아래로 스크롤
+                _pageController.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                );
+              } else if (pointerSignal.scrollDelta.dy < 0 &&
+                  _pageController.page! > 0) {
+                // 위로 스크롤
+                _pageController.previousPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                );
+              }
             }
-          }
-        },
-        child: PageView(
-          controller: _pageController,
-          scrollDirection: Axis.vertical,
-          physics: kIsWeb
-              ? const NeverScrollableScrollPhysics()
-              : const PageScrollPhysics(),
-          children: <Widget>[
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    'assets/photos/1.jpg',
-                    fit: BoxFit.fitHeight,
+          },
+          child: PageView(
+            controller: _pageController,
+            scrollDirection: Axis.vertical,
+            physics: isWebMobile
+                ? const PageScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned.fill(
+                    child: Image.asset(
+                      'assets/photos/1.jpg',
+                      fit: BoxFit.fitHeight,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Container(
-              child: const Center(
+                ],
+              ),
+              const Center(
                 child: Text('두번째 페이지'),
               ),
-            ),
-            Container(
-              child: const Center(
+              const Center(
                 child: Text('세번째 페이지'),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
