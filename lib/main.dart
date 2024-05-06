@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/enum.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: 'https://jdpuymhlqtfpzwbfzvvi.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkcHV5bWhscXRmcHp3YmZ6dnZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQzNjU1MDEsImV4cCI6MjAyOTk0MTUwMX0.Y1i7CQ2ZYnQ2rQNa99jLfbXVtpSrBH1tBwuTW-j__8g',
+  );
   runApp(const JHDKWedding());
 }
 
-class JHDKWedding extends StatelessWidget {
+class JHDKWedding extends StatefulWidget {
   const JHDKWedding({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<JHDKWedding> createState() => _JHDKWeddingState();
+}
+
+class _JHDKWeddingState extends State<JHDKWedding> {
+  @override
+  void initState() {
+    super.initState();
+    _getDatabase();
+  }
+
+  void _getDatabase() async {
+    final data = await Supabase.instance.client.from('photos').select();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
