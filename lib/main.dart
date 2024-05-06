@@ -1,7 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
+import 'package:jhdkwedding/widgets/posting.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -15,25 +17,8 @@ Future<void> main() async {
   runApp(const JHDKWedding());
 }
 
-class JHDKWedding extends StatefulWidget {
+class JHDKWedding extends StatelessWidget {
   const JHDKWedding({super.key});
-
-  @override
-  State<JHDKWedding> createState() => _JHDKWeddingState();
-}
-
-class _JHDKWeddingState extends State<JHDKWedding> {
-  List<Map<String, dynamic>> _data = [];
-  @override
-  void initState() {
-    super.initState();
-    _getDatabase();
-  }
-
-  void _getDatabase() async {
-    _data = await Supabase.instance.client.from('photos').select();
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +61,18 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<Map<String, dynamic>> _data = [];
+  @override
+  void initState() {
+    super.initState();
+    _getDatabase();
+  }
+
+  void _getDatabase() async {
+    _data = await Supabase.instance.client.from('photos').select();
+    setState(() {});
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -109,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
                           "김다경과 안재현이\n여러분의 '마음'을 초대합니다.",
                           style: TextStyle(
                             fontFamily: 'Ownglyph-meetme',
-                            fontSize: Sizes.size32,
+                            fontSize: Sizes.size28,
                             height: 1.2,
                           ),
                         ),
@@ -118,7 +115,7 @@ class _MainScreenState extends State<MainScreen> {
                           '아! 우선 저희는 결혼식을 따로 하지 않기로 했어요.',
                           style: TextStyle(
                             fontFamily: 'KyoboHandwriting2019',
-                            fontSize: Sizes.size20,
+                            fontSize: Sizes.size18,
                           ),
                         ),
                         Gaps.v20,
@@ -126,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
                           '저희도 결혼식을 많이 초대받아봤지만, 곤란한 상황이 종종 생기더라라고요.',
                           style: TextStyle(
                             fontFamily: 'KyoboHandwriting2019',
-                            fontSize: Sizes.size20,
+                            fontSize: Sizes.size18,
                           ),
                         ),
                         Gaps.v20,
@@ -134,7 +131,7 @@ class _MainScreenState extends State<MainScreen> {
                           '일정이 바빠서 못가게 되는 때도 있고, 가더라도 사람이 너무 많아 인사도 제대로 못하고 오는 경우도 있고 말이죠.',
                           style: TextStyle(
                             fontFamily: 'KyoboHandwriting2019',
-                            fontSize: Sizes.size20,
+                            fontSize: Sizes.size18,
                           ),
                         ),
                         Gaps.v20,
@@ -142,7 +139,7 @@ class _MainScreenState extends State<MainScreen> {
                           '그럴 때 마다 축하하는 마음을 100% 전달하지 못한 것 같아 아쉬움이 남더군요.',
                           style: TextStyle(
                             fontFamily: 'KyoboHandwriting2019',
-                            fontSize: Sizes.size20,
+                            fontSize: Sizes.size18,
                           ),
                         ),
                         Gaps.v20,
@@ -150,7 +147,7 @@ class _MainScreenState extends State<MainScreen> {
                           '저희도 그 마음 잘 알기에, 식을 올리지 않는 대신\n이탈리아의 조용한 시골 마을에서 단 둘이 소소한 세리머니를 하기로 했습니다.',
                           style: TextStyle(
                             fontFamily: 'KyoboHandwriting2019',
-                            fontSize: Sizes.size20,
+                            fontSize: Sizes.size18,
                           ),
                         ),
                         Gaps.v20,
@@ -159,7 +156,7 @@ class _MainScreenState extends State<MainScreen> {
                             text: '(직접 오셔서 축하해 주셔도 되고)',
                             style: TextStyle(
                               fontFamily: 'KyoboHandwriting2019',
-                              fontSize: Sizes.size20,
+                              fontSize: Sizes.size18,
                               color: ColorEnum.grey,
                               decoration: TextDecoration.lineThrough,
                             ),
@@ -178,10 +175,28 @@ class _MainScreenState extends State<MainScreen> {
                       ],
                     ),
                   ),
-                  Image.network(
-                    'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/BBD991FB-3CC0-49F9-B071-4183EB587722.JPG',
+                  CarouselSlider(
+                    items: _data
+                        .map(
+                          (e) => Posting(url: e['url']),
+                        )
+                        .toList(),
+                    options: CarouselOptions(
+                      // height: 400,
+                      aspectRatio: 5 / 4,
+                      viewportFraction: 1,
+                      initialPage: 0,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(
+                        milliseconds: 4000,
+                      ),
+                      autoPlayAnimationDuration: const Duration(
+                        milliseconds: 500,
+                      ),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      onPageChanged: (index, reason) {},
+                    ),
                   ),
-                  Gaps.v40,
                 ],
               ),
             ),
