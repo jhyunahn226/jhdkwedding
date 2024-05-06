@@ -2,32 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 
-class Posting extends StatelessWidget {
+class Posting extends StatefulWidget {
+  final int id;
   final String url;
+  final int likes;
+  final String? description;
   const Posting({
     super.key,
+    required this.id,
     required this.url,
+    required this.likes,
+    this.description,
   });
 
+  @override
+  State<Posting> createState() => _PostingState();
+}
+
+class _PostingState extends State<Posting> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.network(url),
-        const Row(
+        Image.network(widget.url),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: EdgeInsets.all(Sizes.size10),
+              padding: const EdgeInsets.all(Sizes.size10),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.favorite_border,
                     size: Sizes.size20,
                   ),
                   Gaps.h6,
                   Text(
-                    '96',
-                    style: TextStyle(
+                    widget.likes.toString(),
+                    style: const TextStyle(
                       fontSize: Sizes.size12,
                     ),
                   ),
@@ -35,21 +47,12 @@ class Posting extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(Sizes.size10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.chat_bubble_outline,
-                    size: Sizes.size20,
-                  ),
-                  Gaps.h6,
-                  Text(
-                    '3',
-                    style: TextStyle(
-                      fontSize: Sizes.size12,
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.only(right: Sizes.size10),
+              child: Text(
+                widget.description ?? '',
+                style: const TextStyle(
+                  fontFamily: 'KyoboHandwriting2019',
+                ),
               ),
             ),
           ],
