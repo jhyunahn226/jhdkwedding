@@ -21,6 +21,7 @@ class JHDKWedding extends StatefulWidget {
 }
 
 class _JHDKWeddingState extends State<JHDKWedding> {
+  List<Map<String, dynamic>> _data = [];
   @override
   void initState() {
     super.initState();
@@ -28,7 +29,8 @@ class _JHDKWeddingState extends State<JHDKWedding> {
   }
 
   void _getDatabase() async {
-    final data = await Supabase.instance.client.from('photos').select();
+    _data = await Supabase.instance.client.from('photos').select();
+    setState(() {});
   }
 
   @override
