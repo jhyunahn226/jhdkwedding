@@ -77,6 +77,12 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: Ownglyph-meetme
+      fonts:
+        - asset: assets/fonts/Ownglyph-meetme.ttf
+    - family: KyoboHandwriting2019
+      fonts:
+        - asset: assets/fonts/KyoboHandwriting2019.ttf
     - family: Pretendard
       fonts:
         - asset: assets/fonts/Pretendard-Thin.ttf

@@ -16,7 +16,7 @@ class ColorEnum {
   static const navyblue = Color(0xFF141E46);
   static const salmon = Color(0xFFFF6969);
   static const beige = Color(0xFFEAE8DC);
-  static const background = Color(0xFFEFF2F7);
+  static const background = Color(0xFFF9FAFD);
 
   static const basic = Color(0xFFF5F7F8);
   static const yellow = Color(0xFFF4CE14);
