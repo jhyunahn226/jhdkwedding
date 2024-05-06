@@ -130,6 +130,7 @@ class _MainScreenState extends State<MainScreen> {
                             id: _data[index]['id'],
                             url: _data[index]['url'],
                             likes: _data[index]['likes'],
+                            description: _data[index]['description'],
                             addLike: _addLike,
                           ),
                           options: CarouselOptions(
