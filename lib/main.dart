@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/enum.dart';
-import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 import 'package:jhdkwedding/widgets/page1.dart';
 import 'package:jhdkwedding/widgets/page2.dart';
 import 'package:jhdkwedding/widgets/posting.dart';
+import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -83,6 +83,12 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void _addLike(int id) {
+    var item = _data.firstWhere((element) => element['id'] == id);
+    item['likes']++;
+    setState(() {});
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -92,8 +98,17 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator.adaptive(),
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    'assets/lotties/loading.json',
+                    width: Sizes.size150,
+                  ),
+                  const Text('Loading'),
+                ],
+              ),
             )
           : SafeArea(
               bottom: false,
@@ -109,17 +124,14 @@ class _MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Image.asset('assets/photos/onboarding1.jpg'),
                         const Page1(),
-                        CarouselSlider(
-                          items: _data
-                              .map(
-                                (e) => Posting(
-                                  id: e['id'],
-                                  url: e['url'],
-                                  likes: e['likes'],
-                                  description: e['description'],
-                                ),
-                              )
-                              .toList(),
+                        CarouselSlider.builder(
+                          itemCount: _data.length,
+                          itemBuilder: (context, index, realIndex) => Posting(
+                            id: _data[index]['id'],
+                            url: _data[index]['url'],
+                            likes: _data[index]['likes'],
+                            addLike: _addLike,
+                          ),
                           options: CarouselOptions(
                             // height: 400,
                             aspectRatio: 5 / 4,
