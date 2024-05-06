@@ -27,12 +27,26 @@ class Posting extends StatefulWidget {
 
 class _PostingState extends State<Posting> {
   bool _isLikeTouched = false;
+  Timer? _likeTimer;
   late int _likes;
 
   @override
   void initState() {
     super.initState();
     _likes = widget.likes;
+  }
+
+  void _onLikeTap() {
+    _likes++;
+    widget.addLike(widget.id);
+    setState(() => _isLikeTouched = true);
+
+    _likeTimer?.cancel(); //기존의 타이머가 있다면 취소
+
+    _likeTimer = Timer(const Duration(milliseconds: 3200), () {
+      if (!mounted) return;
+      setState(() => _isLikeTouched = false);
+    });
   }
 
   @override
@@ -51,15 +65,7 @@ class _PostingState extends State<Posting> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () {
-                      _likes++;
-                      widget.addLike(widget.id);
-                      setState(() => _isLikeTouched = true);
-                      Timer(const Duration(milliseconds: 3200), () {
-                        if (!mounted) return;
-                        setState(() => _isLikeTouched = false);
-                      });
-                    },
+                    onTap: _onLikeTap,
                     child: Row(
                       children: [
                         const Icon(
