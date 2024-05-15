@@ -34,18 +34,10 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v24,
-          const Text(
-            '왜 하필 9월 6일이냐?! 그 날은 저희가 처음 연애를 시작한 날짜거든요. 2019년부터 만남을 이어왔으니 벌써 5년이 되었네요.',
-            style: TextStyle(
-              fontFamily: 'KyoboHandwriting2019',
-              fontSize: Sizes.size18,
-            ),
-          ),
-          Gaps.v24,
+          Gaps.v8,
           RichText(
             text: const TextSpan(
-              text: '(직접 오셔서 축하해 주셔도 되고)',
+              text: '(이탈리아에 직접 오셔서 축하해 주셔도 되고)',
               style: TextStyle(
                 fontFamily: 'KyoboHandwriting2019',
                 fontSize: Sizes.size18,
@@ -65,7 +57,23 @@ class Page2 extends StatelessWidget {
           ),
           Gaps.v24,
           const Text(
-            '아! 신기하게도 저희는 5년 동안 단 한번도 싸우지 않았답니다.',
+            '아, 그런데 왜 하필 9월 6일이냐?!',
+            style: TextStyle(
+              fontFamily: 'KyoboHandwriting2019',
+              fontSize: Sizes.size18,
+            ),
+          ),
+          Gaps.v8,
+          const Text(
+            '그 날이 저희가 처음 연애를 시작한 날짜거든요. 2019년부터 만남을 이어왔으니 벌써 5년이 되었네요.',
+            style: TextStyle(
+              fontFamily: 'KyoboHandwriting2019',
+              fontSize: Sizes.size18,
+            ),
+          ),
+          Gaps.v24,
+          const Text(
+            '신기하게도 저희는 5년 동안 단 한번도 싸우지 않았답니다.',
             style: TextStyle(
               fontFamily: 'KyoboHandwriting2019',
               fontSize: Sizes.size18,
