@@ -122,7 +122,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
-                        Image.asset('assets/photos/onboarding1.jpg'),
+                        Image.asset('assets/photos/onboarding3.jpg'),
                         const Page1(),
                         CarouselSlider.builder(
                           itemCount: _data.length,

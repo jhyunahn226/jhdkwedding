@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 
@@ -8,81 +7,68 @@ class Page1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
+    return const Padding(
+      padding: EdgeInsets.symmetric(
         horizontal: Sizes.size48,
         vertical: Sizes.size52,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "김다경과 안재현이\n여러분의 '마음' 을 초대합니다.",
+          Text(
+            "Keep Your Date !",
             style: TextStyle(
               fontFamily: 'Ownglyph-meetme',
               fontSize: Sizes.size28,
               height: 1.2,
             ),
           ),
-          Gaps.v20,
-          const Text(
-            '아! 우선 저희는 결혼식을 따로 하지 않기로 했어요.',
+          Gaps.v24,
+          Text(
+            '아! 저희는 결혼식을 따로 하지 않기로 했어요.',
             style: TextStyle(
               fontFamily: 'KyoboHandwriting2019',
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v20,
-          const Text(
-            '저희도 결혼식을 많이 초대받아봤지만, 곤란한 상황이 종종 생기더라라고요.',
+          Gaps.v24,
+          Text(
+            '저희가 이렇게 여러분께 청첩장을 보냈다는 것은, 저희의 삶에서 여러분과의 인연이 소중한 의미가 있었다는 뜻일 거에요.',
             style: TextStyle(
               fontFamily: 'KyoboHandwriting2019',
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v10,
-          const Text(
-            '일정이 바빠서 못가게 되는 때도 있고, 가더라도 사람이 너무 많아 인사도 제대로 못하고 오는 경우도 있고 말이죠.',
+          Gaps.v8,
+          Text(
+            '사랑하는 가족이거나, 고민과 기쁨을 나눴던 소중한 친구이거나, 항상 고마움으로 가득한 직장 동료 이거나...',
             style: TextStyle(
               fontFamily: 'KyoboHandwriting2019',
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v10,
-          const Text(
-            '그럴 때 마다 축하하는 마음을 100% 전달하지 못한 것 같아 아쉬움이 남더군요.',
+          Gaps.v8,
+          Text(
+            '그래서 이 글을 읽고 계시는 당신이라면, 굳이 결혼식을 하지 않더라도 충분히 마음으로 진심 어린 축하를 보내주실 거라는 걸 알거든요.',
             style: TextStyle(
               fontFamily: 'KyoboHandwriting2019',
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v20,
-          const Text(
-            '저희도 그 마음 잘 알기에, 식을 올리지 않는 대신\n이탈리아의 조용한 시골 마을에서 단 둘이 소소한 세리머니를 하기로 했습니다.',
+          Gaps.v24,
+          Text(
+            '그리고 무엇보다도... 결혼식을 하면 저희는 분명 오열하느라 식이 제대로 진행되지 않을거에요. (결혼식 상상만 해도 울컥한 걸 보면 확실해요)',
             style: TextStyle(
               fontFamily: 'KyoboHandwriting2019',
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v20,
-          RichText(
-            text: const TextSpan(
-              text: '(직접 오셔서 축하해 주셔도 되고)',
-              style: TextStyle(
-                fontFamily: 'KyoboHandwriting2019',
-                fontSize: Sizes.size18,
-                color: ColorEnum.grey,
-                decoration: TextDecoration.lineThrough,
-              ),
-              children: [
-                TextSpan(
-                  text: ' 여러분의 축하의 마음이 담긴 따뜻한 연락 한 통이면 충분할 것 같아요.',
-                  style: TextStyle(
-                    color: ColorEnum.black,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
-              ],
+          Gaps.v8,
+          Text(
+            '대신 이탈리아의 조용한 시골 마을에서 단둘이 소소한 세리머니를 하기로 했습니다.',
+            style: TextStyle(
+              fontFamily: 'KyoboHandwriting2019',
+              fontSize: Sizes.size18,
             ),
           ),
         ],
