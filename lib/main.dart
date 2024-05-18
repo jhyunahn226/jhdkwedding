@@ -4,6 +4,7 @@ import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 import 'package:jhdkwedding/widgets/page1.dart';
 import 'package:jhdkwedding/widgets/page2.dart';
+import 'package:jhdkwedding/widgets/page3.dart';
 import 'package:jhdkwedding/widgets/posting.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -63,8 +64,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final supabase = Supabase.instance.client;
   bool _isLoading = true;
-  List<Map<String, dynamic>> _data = [];
+  List<Map<String, dynamic>> _section1 = [];
 
   @override
   void initState() {
@@ -73,8 +75,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _getDatabase() async {
-    _data = await Supabase.instance.client.from('photos').select();
-    for (Map<String, dynamic> data in _data) {
+    _section1 = await supabase.from('photos').select().eq('section', 1);
+    for (Map<String, dynamic> data in _section1) {
       if (!mounted) return;
       await precacheImage(Image.network(data['url']).image, context);
     }
@@ -84,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _addLike(int id) {
-    var item = _data.firstWhere((element) => element['id'] == id);
+    var item = _section1.firstWhere((element) => element['id'] == id);
     item['likes']++;
     setState(() {});
   }
@@ -125,12 +127,12 @@ class _MainScreenState extends State<MainScreen> {
                         Image.asset('assets/photos/onboarding3.jpg'),
                         const Page1(),
                         CarouselSlider.builder(
-                          itemCount: _data.length,
+                          itemCount: _section1.length,
                           itemBuilder: (context, index, realIndex) => Posting(
-                            id: _data[index]['id'],
-                            url: _data[index]['url'],
-                            likes: _data[index]['likes'],
-                            description: _data[index]['description'],
+                            id: _section1[index]['id'],
+                            url: _section1[index]['url'],
+                            likes: _section1[index]['likes'],
+                            description: _section1[index]['description'],
                             addLike: _addLike,
                           ),
                           options: CarouselOptions(
@@ -150,6 +152,32 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                         const Page2(),
+                        CarouselSlider.builder(
+                          itemCount: _section1.length,
+                          itemBuilder: (context, index, realIndex) => Posting(
+                            id: _section1[index]['id'],
+                            url: _section1[index]['url'],
+                            likes: _section1[index]['likes'],
+                            description: _section1[index]['description'],
+                            addLike: _addLike,
+                          ),
+                          options: CarouselOptions(
+                            // height: 400,
+                            aspectRatio: 5 / 4,
+                            viewportFraction: 1,
+                            initialPage: 0,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(
+                              milliseconds: 4000,
+                            ),
+                            autoPlayAnimationDuration: const Duration(
+                              milliseconds: 500,
+                            ),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            onPageChanged: (index, reason) {},
+                          ),
+                        ),
+                        const Page3(),
                       ],
                     ),
                   ),
