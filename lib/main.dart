@@ -120,7 +120,15 @@ class _MainScreenState extends State<MainScreen> {
                   constraints: const BoxConstraints(
                     maxWidth: 500,
                   ),
-                  color: ColorEnum.background,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(
+                        'assets/photos/paper.jpg',
+                      ),
+                    ),
+                  ),
+                  // color: ColorEnum.background,
                   child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 
