@@ -49,7 +49,7 @@ class Page1 extends StatelessWidget {
                     '" Keep Your Date "',
                     style: TextStyle(
                       fontFamily: 'Ownglyph-meetme',
-                      fontSize: Sizes.size24,
+                      fontSize: Sizes.size28,
                       height: 1.2,
                     ),
                   ),
@@ -70,7 +70,7 @@ class Page1 extends StatelessWidget {
                     fontSize: Sizes.size18,
                   ),
                 ),
-                Gaps.v10,
+                Gaps.v8,
                 Text(
                   '그래서 이 글을 읽고 계시는 당신이라면, 굳이 결혼식을 하지 않더라도 충분히 마음으로 진심 어린 축하를 보내주실 거라는 걸 알거든요.',
                   style: TextStyle(
@@ -86,7 +86,7 @@ class Page1 extends StatelessWidget {
                     fontSize: Sizes.size18,
                   ),
                 ),
-                Gaps.v10,
+                Gaps.v8,
                 Text(
                   '대신 이탈리아의 조용한 시골 마을에서 단둘이 소소한 세리머니를 하기로 했답니다.',
                   style: TextStyle(

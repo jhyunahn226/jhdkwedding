@@ -5,6 +5,7 @@ import 'package:jhdkwedding/constants/sizes.dart';
 import 'package:jhdkwedding/widgets/page1.dart';
 import 'package:jhdkwedding/widgets/page2.dart';
 import 'package:jhdkwedding/widgets/page3.dart';
+import 'package:jhdkwedding/widgets/page4.dart';
 import 'package:jhdkwedding/widgets/posting.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -49,7 +50,7 @@ class JHDKWedding extends StatelessWidget {
             surfaceTintColor: Colors.transparent,
           ),
           scrollbarTheme: const ScrollbarThemeData(
-            thickness: MaterialStatePropertyAll(5),
+            thickness: WidgetStatePropertyAll(5),
           )),
       home: const MainScreen(),
     );
@@ -186,6 +187,32 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                         const Page3(),
+                        CarouselSlider.builder(
+                          itemCount: _section1.length,
+                          itemBuilder: (context, index, realIndex) => Posting(
+                            id: _section1[index]['id'],
+                            url: _section1[index]['url'],
+                            likes: _section1[index]['likes'],
+                            description: _section1[index]['description'],
+                            addLike: _addLike,
+                          ),
+                          options: CarouselOptions(
+                            // height: 400,
+                            aspectRatio: 5 / 4,
+                            viewportFraction: 1,
+                            initialPage: 0,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(
+                              milliseconds: 4000,
+                            ),
+                            autoPlayAnimationDuration: const Duration(
+                              milliseconds: 500,
+                            ),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            onPageChanged: (index, reason) {},
+                          ),
+                        ),
+                        const Page4(),
                       ],
                     ),
                   ),

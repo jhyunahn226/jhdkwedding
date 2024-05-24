@@ -64,7 +64,7 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v10,
+          Gaps.v8,
           const Text(
             '그 날이 저희가 처음 연애를 시작한 날짜거든요. 2019년부터 만남을 이어왔으니 벌써 5년이 되었네요.',
             style: TextStyle(
@@ -80,7 +80,7 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v10,
+          Gaps.v8,
           const Text(
             '결혼은 현실이라고 같이 살면 싸울 수 밖에 없다던데, 그래도 이 사람이라면 슬기롭게 헤쳐나갈 수 있을 거란 확신이 들어요.',
             style: TextStyle(
@@ -88,7 +88,7 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size18,
             ),
           ),
-          Gaps.v10,
+          Gaps.v8,
           const Text(
             '맛있는 거 먹고 풀면 되죠 뭐! 그게 인생 아닐까요?',
             style: TextStyle(
