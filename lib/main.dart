@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:jhdkwedding/constants/constants.dart';
 import 'package:jhdkwedding/constants/enum.dart';
+import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 import 'package:jhdkwedding/widgets/gallery.dart';
 import 'package:jhdkwedding/widgets/page1.dart';
@@ -37,29 +39,7 @@ class JHDKWedding extends StatelessWidget {
     return MaterialApp(
       title: 'JHDK Wedding',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          useMaterial3: true,
-          fontFamily: 'Pretendard',
-          primaryColor: ColorEnum.white,
-          splashFactory: NoSplash.splashFactory,
-          scaffoldBackgroundColor: ColorEnum.white,
-          dialogBackgroundColor: ColorEnum.white,
-          appBarTheme: const AppBarTheme(
-            scrolledUnderElevation: 0,
-            backgroundColor: ColorEnum.white,
-            foregroundColor: ColorEnum.black,
-          ),
-          dialogTheme: const DialogTheme(
-            surfaceTintColor: Colors.transparent,
-            backgroundColor: ColorEnum.white,
-          ),
-          bottomSheetTheme: const BottomSheetThemeData(
-            backgroundColor: ColorEnum.white,
-            surfaceTintColor: Colors.transparent,
-          ),
-          scrollbarTheme: const ScrollbarThemeData(
-            thickness: WidgetStatePropertyAll(5),
-          )),
+      theme: appTheme,
       home: const MainScreen(),
     );
   }
@@ -73,7 +53,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final supabase = Supabase.instance.client;
   bool _isLoading = true;
 
   final ScrollController _scrollController = ScrollController();
@@ -168,6 +147,7 @@ class _MainScreenState extends State<MainScreen> {
                   // color: ColorEnum.background,
                   child: CustomScrollView(
                     controller: _scrollController,
+                    physics: const ClampingScrollPhysics(),
                     slivers: [
                       SliverToBoxAdapter(
                         child: Image.asset('assets/photos/onboarding3.jpg'),
@@ -403,7 +383,9 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                             const Page4(),
+                            Gaps.v40,
                             const Gallery(),
+                            Gaps.v40,
                             const ShareWidget(),
                           ],
                         ),

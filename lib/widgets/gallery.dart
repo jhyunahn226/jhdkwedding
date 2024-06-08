@@ -23,20 +23,21 @@ class _GalleryState extends State<Gallery> {
 
   void _getDatabase() async {
     _photos = await supabase.from('photos').select();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           width: Sizes.size60,
           child: Divider(
             color: ColorEnum.black,
           ),
         ),
         Gaps.v10,
-        Text(
+        const Text(
           'GALLERY',
           style: TextStyle(
             fontFamily: 'Pretendard',
@@ -45,15 +46,18 @@ class _GalleryState extends State<Gallery> {
           ),
         ),
         Gaps.v40,
-        // GridView.builder(
-        //   padding: const EdgeInsets.all(Sizes.size10),
-        //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //     crossAxisCount: 3,
-        //     childAspectRatio: 1,
-        //   ),
-        //   itemCount: _photos.length,
-        //   itemBuilder: (context, index) => const Text('hi'),
-        // ),
+        GridView.builder(
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 1,
+          ),
+          itemCount: _photos.length,
+          itemBuilder: (context, index) => Image.network(
+            _photos[index]['url'],
+            fit: BoxFit.cover,
+          ),
+        ),
       ],
     );
   }
