@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/constants.dart';
-import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 import 'package:jhdkwedding/widgets/gallery.dart';
@@ -13,7 +12,6 @@ import 'package:jhdkwedding/widgets/posting.dart';
 import 'package:jhdkwedding/widgets/share.dart';
 import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 import 'package:lottie/lottie.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
