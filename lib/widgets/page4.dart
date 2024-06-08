@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 
@@ -8,16 +9,33 @@ class Page4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(Sizes.size40),
+      padding: const EdgeInsets.only(
+        bottom: Sizes.size40,
+        left: Sizes.size40,
+        right: Sizes.size40,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "안재현 그리고 김다경스럽게,",
-            style: TextStyle(
-              fontFamily: 'Ownglyph-meetme',
-              fontSize: Sizes.size24,
-              height: 1.2,
+          const Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+              height: Sizes.size40,
+              child: VerticalDivider(
+                color: ColorEnum.black,
+              ),
+            ),
+          ),
+          Gaps.v20,
+          const Align(
+            alignment: Alignment.center,
+            child: Text(
+              "안재현 & 김다경 스럽게",
+              style: TextStyle(
+                fontFamily: 'Ownglyph-meetme',
+                fontSize: Sizes.size24,
+                height: 1.2,
+              ),
             ),
           ),
           Gaps.v20,
@@ -30,7 +48,7 @@ class Page4 extends StatelessWidget {
           ),
           Gaps.v20,
           const Text(
-            '그리고 저희만 행복한 삶이 아닌, 여러분처럼 소중한 분들의 행복에도 보탬이 되는 삶을 살아보려구요!',
+            '그리고 저희만 행복한 삶이 아닌, 여러분처럼 소중한 분들의 행복에도 보탬이 되는 삶을 살아보려구요.',
             style: TextStyle(
               fontFamily: 'KyoboHandwriting2019',
               fontSize: Sizes.size16,
