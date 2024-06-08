@@ -9,12 +9,7 @@ class Page2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: Sizes.size40,
-        right: Sizes.size40,
-        bottom: Sizes.size52,
-        top: Sizes.size20,
-      ),
+      padding: const EdgeInsets.all(Sizes.size40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -26,7 +21,7 @@ class Page2 extends StatelessWidget {
               height: 1.2,
             ),
           ),
-          Gaps.v24,
+          Gaps.v20,
           const Text(
             '2024년 9월 6일이에요.',
             style: TextStyle(
@@ -35,7 +30,7 @@ class Page2 extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          Gaps.v24,
+          Gaps.v20,
           RichText(
             text: const TextSpan(
               text: '(이탈리아에 직접 오셔서 축하해 주셔도 되고)',
@@ -56,7 +51,7 @@ class Page2 extends StatelessWidget {
               ],
             ),
           ),
-          Gaps.v24,
+          Gaps.v20,
           const Text(
             '아, 그런데 왜 하필 9월 6일이냐?!',
             style: TextStyle(
@@ -64,7 +59,7 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size16,
             ),
           ),
-          Gaps.v24,
+          Gaps.v20,
           const Text(
             '그 날이 저희가 처음 연애를 시작한 날짜거든요. 2019년부터 만남을 이어왔으니 벌써 5년이 되었네요.',
             style: TextStyle(
@@ -72,7 +67,7 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size16,
             ),
           ),
-          Gaps.v24,
+          Gaps.v20,
           const Text(
             '신기하게도 저희는 5년 동안 단 한번도 싸우지 않았답니다.',
             style: TextStyle(
@@ -80,7 +75,7 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size16,
             ),
           ),
-          Gaps.v24,
+          Gaps.v20,
           const Text(
             '결혼은 현실이라고 같이 살면 싸울 수 밖에 없다던데, 그래도 이 사람이라면 슬기롭게 헤쳐나갈 수 있을 거란 확신이 들어요.',
             style: TextStyle(
@@ -88,7 +83,7 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size16,
             ),
           ),
-          Gaps.v24,
+          Gaps.v20,
           const Text(
             '맛있는 거 먹고 풀면 되죠 뭐! 그게 인생 아닐까요?',
             style: TextStyle(
