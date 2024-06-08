@@ -9,48 +9,67 @@ class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.size20,
-        vertical: Sizes.size32,
-      ),
+      padding: const EdgeInsets.all(Sizes.size40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Align(
-            alignment: Alignment.center,
-            child: Image.asset(
-              'assets/images/window.png',
-              // width: 250,
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.center,
+          //   child: Image.asset(
+          //     'assets/images/window.png',
+          //     // width: 250,
+          //   ),
+          // ),
           Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  color: Color(0xFF434343),
-                  width: 0.4,
-                ),
-                right: BorderSide(
-                  color: Color(0xFF434343),
-                  width: 0.4,
-                ),
-                bottom: BorderSide(
-                  color: Color(0xFF434343),
-                  width: 0.4,
-                ),
-              ),
-            ),
-            padding: const EdgeInsets.all(Sizes.size32),
+            // decoration: const BoxDecoration(
+            //   border: Border(
+            //     left: BorderSide(
+            //       color: Color(0xFF434343),
+            //       width: 0.4,
+            //     ),
+            //     right: BorderSide(
+            //       color: Color(0xFF434343),
+            //       width: 0.4,
+            //     ),
+            //     bottom: BorderSide(
+            //       color: Color(0xFF434343),
+            //       width: 0.4,
+            //     ),
+            //   ),
+            // ),
+            // padding: const EdgeInsets.all(Sizes.size32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Align(
                   alignment: Alignment.center,
+                  child: SizedBox(
+                    height: Sizes.size40,
+                    child: VerticalDivider(
+                      color: ColorEnum.black,
+                    ),
+                  ),
+                ),
+                Gaps.v20,
+                const Align(
+                  alignment: Alignment.center,
                   child: Text(
-                    '" Keep Your Date "',
+                    'Keep Your Date',
                     style: TextStyle(
                       fontFamily: 'Ownglyph-meetme',
                       fontSize: Sizes.size24,
+                      height: 1.2,
+                    ),
+                  ),
+                ),
+                Gaps.v8,
+                const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    '2024.09.06',
+                    style: TextStyle(
+                      fontFamily: 'Ownglyph-meetme',
+                      fontSize: Sizes.size18,
                       height: 1.2,
                     ),
                   ),

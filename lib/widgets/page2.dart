@@ -75,9 +75,16 @@ class Page2 extends StatelessWidget {
               fontSize: Sizes.size16,
             ),
           ),
+          const Text(
+            '둘 다 둥글둥글, 예민하지 않고 무던한 성격이라서 그런지 서로에게 잘 맞춰주고 배려하며 연애해왔어요.',
+            style: TextStyle(
+              fontFamily: 'KyoboHandwriting2019',
+              fontSize: Sizes.size16,
+            ),
+          ),
           Gaps.v20,
           const Text(
-            '결혼은 현실이라고 같이 살면 싸울 수 밖에 없다던데, 그래도 이 사람이라면 슬기롭게 헤쳐나갈 수 있을 거란 확신이 들어요.',
+            '그래도 결혼은 현실이라고 같이 살면 싸울 수 밖에 없다던데, 그래도 이 사람이라면 슬기롭게 헤쳐나갈 수 있을 거란 확신이 들어요.',
             style: TextStyle(
               fontFamily: 'KyoboHandwriting2019',
               fontSize: Sizes.size16,

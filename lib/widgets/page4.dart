@@ -13,10 +13,10 @@ class Page4 extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "안재현스럽게, 김다경스럽게,",
+            "안재현 그리고 김다경스럽게,",
             style: TextStyle(
               fontFamily: 'Ownglyph-meetme',
-              fontSize: Sizes.size28,
+              fontSize: Sizes.size24,
               height: 1.2,
             ),
           ),
@@ -68,7 +68,7 @@ class Page4 extends StatelessWidget {
                     '2024.09.06 ~',
                     style: TextStyle(
                       fontFamily: 'KyoboHandwriting2019',
-                      fontSize: Sizes.size16,
+                      fontSize: Sizes.size14,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -76,7 +76,7 @@ class Page4 extends StatelessWidget {
                     '김다경 & 안재현 드림.',
                     style: TextStyle(
                       fontFamily: 'KyoboHandwriting2019',
-                      fontSize: Sizes.size16,
+                      fontSize: Sizes.size14,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
