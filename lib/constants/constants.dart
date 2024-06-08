@@ -41,10 +41,13 @@ extension ShowSnackBar on BuildContext {
   /// Displays a basic snackbar
   void showSnackBar({
     required String message,
-    Color backgroundColor = Colors.white,
+    Color backgroundColor = ColorEnum.darkgrey,
   }) {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(
-      content: Text(message),
+      content: Text(
+        message,
+        style: const TextStyle(color: ColorEnum.white),
+      ),
       backgroundColor: backgroundColor,
     ));
   }

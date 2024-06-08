@@ -18,16 +18,17 @@ class ShareWidget extends StatelessWidget {
           'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/thumbnail.JPG',
         ),
         link: Link(
-          webUrl: Uri.parse('http://jhyunahn226.github.io/jhdkwedding'),
-          mobileWebUrl: Uri.parse('http://jhyunahn226.github.io/jhdkwedding'),
+          webUrl: Uri.parse('https://jhyunahn226.github.io/jhdkwedding'),
+          mobileWebUrl: Uri.parse('https://jhyunahn226.github.io/jhdkwedding'),
         ),
       ),
       buttons: [
         Button(
           title: '초대장 열어보기',
           link: Link(
-            webUrl: Uri.parse('http://jhyunahn226.github.io/jhdkwedding'),
-            mobileWebUrl: Uri.parse('http://jhyunahn226.github.io/jhdkwedding'),
+            webUrl: Uri.parse('https://jhyunahn226.github.io/jhdkwedding'),
+            mobileWebUrl:
+                Uri.parse('https://jhyunahn226.github.io/jhdkwedding'),
           ),
         ),
       ],
