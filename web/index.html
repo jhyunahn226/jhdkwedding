@@ -29,10 +29,35 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
+  <!-- Set the theme color for the address bar -->
+  <meta name="theme-color" content="#FFFFFF"> <!-- 여기에 원하는 색상 코드 입력 -->
+
   <title>jhdkwedding</title>
   <link rel="manifest" href="manifest.json">
+  
+  <style>
+    /* 초기 로딩 시 스타일 */
+    body {
+      background-color: #FFFFFF; /* 초기 로딩 배경색 설정 */
+      margin: 0;
+    }
+    .loading-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #FFFFFF;
+    }
+  </style>
 </head>
 <body>
+  <div class="loading-indicator">
+    <div>Loading...</div>
+  </div>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
