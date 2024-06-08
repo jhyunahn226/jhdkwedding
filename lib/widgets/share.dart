@@ -18,17 +18,16 @@ class ShareWidget extends StatelessWidget {
           'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/thumbnail.JPG',
         ),
         link: Link(
-          webUrl: Uri.parse('https://jhyunahn226.github.io/jhdkwedding'),
-          mobileWebUrl: Uri.parse('https://jhyunahn226.github.io/jhdkwedding'),
+          webUrl: Uri.parse('https://jhdkwedding.vercel.app'),
+          mobileWebUrl: Uri.parse('https://jhdkwedding.vercel.app'),
         ),
       ),
       buttons: [
         Button(
           title: '초대장 열어보기',
           link: Link(
-            webUrl: Uri.parse('https://jhyunahn226.github.io/jhdkwedding'),
-            mobileWebUrl:
-                Uri.parse('https://jhyunahn226.github.io/jhdkwedding'),
+            webUrl: Uri.parse('https://jhdkwedding.vercel.app'),
+            mobileWebUrl: Uri.parse('https://jhdkwedding.vercel.app'),
           ),
         ),
       ],
@@ -61,7 +60,7 @@ class ShareWidget extends StatelessWidget {
   void _onCopyLink(BuildContext context) {
     Clipboard.setData(
       const ClipboardData(
-        text: 'http://jhyunahn226.github.io/jhdkwedding',
+        text: 'https://jhdkwedding.vercel.app',
       ),
     );
     context.showSnackBar(message: '링크가 복사되었습니다');
