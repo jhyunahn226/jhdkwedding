@@ -164,64 +164,64 @@ class _MainScreenState extends State<MainScreen> {
                       SliverToBoxAdapter(
                         child: Image.asset('assets/photos/onboarding3.jpg'),
                       ),
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: StickyHeaderDelegate(
-                          height: Sizes.size40,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  'assets/photos/paper.jpg',
-                                ),
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                LayoutBuilder(
-                                  builder: (BuildContext context,
-                                      BoxConstraints constraints) {
-                                    double indicatorSize =
-                                        Sizes.size60; //인디케이터 전체 너비
-                                    double translateValue =
-                                        constraints.maxWidth *
-                                                _scrollPercentage -
-                                            indicatorSize / 2; //인디케이터를 이동시킬 거리
+                      // SliverPersistentHeader(
+                      //   pinned: true,
+                      //   delegate: StickyHeaderDelegate(
+                      //     height: Sizes.size40,
+                      //     child: Container(
+                      //       decoration: const BoxDecoration(
+                      //         image: DecorationImage(
+                      //           fit: BoxFit.cover,
+                      //           image: AssetImage(
+                      //             'assets/photos/paper.jpg',
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       child: Column(
+                      //         children: [
+                      //           LayoutBuilder(
+                      //             builder: (BuildContext context,
+                      //                 BoxConstraints constraints) {
+                      //               double indicatorSize =
+                      //                   Sizes.size60; //인디케이터 전체 너비
+                      //               double translateValue =
+                      //                   constraints.maxWidth *
+                      //                           _scrollPercentage -
+                      //                       indicatorSize / 2; //인디케이터를 이동시킬 거리
 
-                                    return Transform.translate(
-                                      offset: Offset(translateValue, 0),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: SizedBox(
-                                          width: indicatorSize,
-                                          child: const Column(
-                                            children: [
-                                              Text(
-                                                'HI',
-                                                style: TextStyle(
-                                                  color: ColorEnum.bluegreen,
-                                                  fontSize: Sizes.size14,
-                                                  fontWeight: FontWeight.w700,
-                                                  height: 0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                LinearPercentIndicator(
-                                  percent: _scrollPercentage,
-                                  progressColor: ColorEnum.darkgreen,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      //               return Transform.translate(
+                      //                 offset: Offset(translateValue, 0),
+                      //                 child: Align(
+                      //                   alignment: Alignment.centerLeft,
+                      //                   child: SizedBox(
+                      //                     width: indicatorSize,
+                      //                     child: const Column(
+                      //                       children: [
+                      //                         Text(
+                      //                           'HI',
+                      //                           style: TextStyle(
+                      //                             color: ColorEnum.bluegreen,
+                      //                             fontSize: Sizes.size14,
+                      //                             fontWeight: FontWeight.w700,
+                      //                             height: 0,
+                      //                           ),
+                      //                         ),
+                      //                       ],
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //               );
+                      //             },
+                      //           ),
+                      //           LinearPercentIndicator(
+                      //             percent: _scrollPercentage,
+                      //             progressColor: ColorEnum.darkgreen,
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       SliverToBoxAdapter(
                         child: Column(
                           children: <Widget>[
