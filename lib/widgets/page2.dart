@@ -10,8 +10,8 @@ class Page2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: Sizes.size48,
-        right: Sizes.size48,
+        left: Sizes.size40,
+        right: Sizes.size40,
         bottom: Sizes.size52,
         top: Sizes.size20,
       ),

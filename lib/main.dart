@@ -8,6 +8,7 @@ import 'package:jhdkwedding/widgets/page3.dart';
 import 'package:jhdkwedding/widgets/page4.dart';
 import 'package:jhdkwedding/widgets/posting.dart';
 import 'package:lottie/lottie.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -67,12 +68,30 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final supabase = Supabase.instance.client;
   bool _isLoading = true;
+
+  final ScrollController _scrollController = ScrollController();
+  double _scrollPercentage = 0.0;
+
+  final CarouselController _section1Controller = CarouselController();
   List<Map<String, dynamic>> _section1 = [];
+  int _section1Slide = 0;
+
+  final CarouselController _section2Controller = CarouselController();
+  List<Map<String, dynamic>> _section2 = [];
+  int _section2Slide = 0;
 
   @override
   void initState() {
     super.initState();
     _getDatabase();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
   }
 
   void _getDatabase() async {
@@ -81,8 +100,22 @@ class _MainScreenState extends State<MainScreen> {
       if (!mounted) return;
       await precacheImage(Image.network(data['url']).image, context);
     }
+    _section2 = await supabase.from('photos').select().eq('section', 2);
+    for (Map<String, dynamic> data in _section2) {
+      if (!mounted) return;
+      await precacheImage(Image.network(data['url']).image, context);
+    }
     setState(() {
       _isLoading = false;
+    });
+  }
+
+  void _scrollListener() {
+    double maxScroll = _scrollController.position.maxScrollExtent;
+    double currentScroll = _scrollController.position.pixels;
+    double percentage = currentScroll / maxScroll;
+    setState(() {
+      _scrollPercentage = percentage.isFinite ? percentage : 0.0;
     });
   }
 
@@ -90,11 +123,6 @@ class _MainScreenState extends State<MainScreen> {
     var item = _section1.firstWhere((element) => element['id'] == id);
     item['likes']++;
     setState(() {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -130,95 +158,278 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                   // color: ColorEnum.background,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('assets/photos/onboarding3.jpg'),
-                        const Page1(),
-                        CarouselSlider.builder(
-                          itemCount: _section1.length,
-                          itemBuilder: (context, index, realIndex) => Posting(
-                            id: _section1[index]['id'],
-                            url: _section1[index]['url'],
-                            likes: _section1[index]['likes'],
-                            description: _section1[index]['description'],
-                            addLike: _addLike,
-                          ),
-                          options: CarouselOptions(
-                            // height: 400,
-                            aspectRatio: 5 / 4,
-                            viewportFraction: 1,
-                            initialPage: 0,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(
-                              milliseconds: 4000,
+                  child: CustomScrollView(
+                    controller: _scrollController,
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Image.asset('assets/photos/onboarding3.jpg'),
+                      ),
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: StickyHeaderDelegate(
+                          height: Sizes.size40,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  'assets/photos/paper.jpg',
+                                ),
+                              ),
                             ),
-                            autoPlayAnimationDuration: const Duration(
-                              milliseconds: 500,
+                            child: Column(
+                              children: [
+                                LayoutBuilder(
+                                  builder: (BuildContext context,
+                                      BoxConstraints constraints) {
+                                    double indicatorSize =
+                                        Sizes.size60; //인디케이터 전체 너비
+                                    double translateValue =
+                                        constraints.maxWidth *
+                                                _scrollPercentage -
+                                            indicatorSize / 2; //인디케이터를 이동시킬 거리
+
+                                    return Transform.translate(
+                                      offset: Offset(translateValue, 0),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: SizedBox(
+                                          width: indicatorSize,
+                                          child: const Column(
+                                            children: [
+                                              Text(
+                                                'HI',
+                                                style: TextStyle(
+                                                  color: ColorEnum.bluegreen,
+                                                  fontSize: Sizes.size14,
+                                                  fontWeight: FontWeight.w700,
+                                                  height: 0,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                LinearPercentIndicator(
+                                  percent: _scrollPercentage,
+                                  progressColor: ColorEnum.darkgreen,
+                                ),
+                              ],
                             ),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            onPageChanged: (index, reason) {},
-                          ),
-                        ),
-                        const Page2(),
-                        CarouselSlider.builder(
-                          itemCount: _section1.length,
-                          itemBuilder: (context, index, realIndex) => Posting(
-                            id: _section1[index]['id'],
-                            url: _section1[index]['url'],
-                            likes: _section1[index]['likes'],
-                            description: _section1[index]['description'],
-                            addLike: _addLike,
-                          ),
-                          options: CarouselOptions(
-                            // height: 400,
-                            aspectRatio: 5 / 4,
-                            viewportFraction: 1,
-                            initialPage: 0,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(
-                              milliseconds: 4000,
-                            ),
-                            autoPlayAnimationDuration: const Duration(
-                              milliseconds: 500,
-                            ),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            onPageChanged: (index, reason) {},
-                          ),
-                        ),
-                        const Page3(),
-                        CarouselSlider.builder(
-                          itemCount: _section1.length,
-                          itemBuilder: (context, index, realIndex) => Posting(
-                            id: _section1[index]['id'],
-                            url: _section1[index]['url'],
-                            likes: _section1[index]['likes'],
-                            description: _section1[index]['description'],
-                            addLike: _addLike,
-                          ),
-                          options: CarouselOptions(
-                            // height: 400,
-                            aspectRatio: 5 / 4,
-                            viewportFraction: 1,
-                            initialPage: 0,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(
-                              milliseconds: 4000,
-                            ),
-                            autoPlayAnimationDuration: const Duration(
-                              milliseconds: 500,
-                            ),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            onPageChanged: (index, reason) {},
                           ),
                         ),
-                        const Page4(),
-                      ],
-                    ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Column(
+                          children: <Widget>[
+                            const Page1(),
+                            Stack(
+                              children: [
+                                CarouselSlider.builder(
+                                  carouselController: _section1Controller,
+                                  itemCount: _section1.length,
+                                  itemBuilder: (context, index, realIndex) =>
+                                      Posting(
+                                    id: _section1[index]['id'],
+                                    url: _section1[index]['url'],
+                                    likes: _section1[index]['likes'],
+                                    description: _section1[index]
+                                        ['description'],
+                                    addLike: _addLike,
+                                  ),
+                                  options: CarouselOptions(
+                                    // height: 400,
+                                    aspectRatio: 5 / 4,
+                                    viewportFraction: 1,
+                                    initialPage: _section1Slide,
+                                    autoPlay: true,
+                                    autoPlayInterval: const Duration(
+                                      milliseconds: 4000,
+                                    ),
+                                    autoPlayAnimationDuration: const Duration(
+                                      milliseconds: 500,
+                                    ),
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    onPageChanged: (index, reason) {
+                                      setState(() => _section1Slide = index);
+                                    },
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:
+                                        _section1.asMap().entries.map((entry) {
+                                      return GestureDetector(
+                                        onTap: () =>
+                                            _section1Controller.animateToPage(
+                                          entry.key,
+                                        ),
+                                        behavior: HitTestBehavior.opaque,
+                                        child: Container(
+                                          width: Sizes.size8,
+                                          height: Sizes.size8,
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 4.0),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: (Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black)
+                                                .withOpacity(
+                                                    _section1Slide == entry.key
+                                                        ? 0.9
+                                                        : 0.4),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Page2(),
+                            Stack(
+                              children: [
+                                CarouselSlider.builder(
+                                  carouselController: _section2Controller,
+                                  itemCount: _section2.length,
+                                  itemBuilder: (context, index, realIndex) =>
+                                      Posting(
+                                    id: _section2[index]['id'],
+                                    url: _section2[index]['url'],
+                                    likes: _section2[index]['likes'],
+                                    description: _section2[index]
+                                        ['description'],
+                                    addLike: _addLike,
+                                  ),
+                                  options: CarouselOptions(
+                                    // height: 400,
+                                    aspectRatio: 3 / 5,
+                                    viewportFraction: 1,
+                                    initialPage: _section2Slide,
+                                    autoPlay: true,
+                                    autoPlayInterval: const Duration(
+                                      milliseconds: 4000,
+                                    ),
+                                    autoPlayAnimationDuration: const Duration(
+                                      milliseconds: 500,
+                                    ),
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    onPageChanged: (index, reason) {
+                                      setState(() => _section2Slide = index);
+                                    },
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:
+                                        _section2.asMap().entries.map((entry) {
+                                      return GestureDetector(
+                                        onTap: () =>
+                                            _section2Controller.animateToPage(
+                                          entry.key,
+                                        ),
+                                        behavior: HitTestBehavior.opaque,
+                                        child: Container(
+                                          width: Sizes.size8,
+                                          height: Sizes.size8,
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 4.0),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: (Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black)
+                                                .withOpacity(
+                                                    _section2Slide == entry.key
+                                                        ? 0.9
+                                                        : 0.4),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Page3(),
+                            CarouselSlider.builder(
+                              itemCount: _section1.length,
+                              itemBuilder: (context, index, realIndex) =>
+                                  Posting(
+                                id: _section1[index]['id'],
+                                url: _section1[index]['url'],
+                                likes: _section1[index]['likes'],
+                                description: _section1[index]['description'],
+                                addLike: _addLike,
+                              ),
+                              options: CarouselOptions(
+                                // height: 400,
+                                aspectRatio: 5 / 4,
+                                viewportFraction: 1,
+                                initialPage: 0,
+                                autoPlay: true,
+                                autoPlayInterval: const Duration(
+                                  milliseconds: 4000,
+                                ),
+                                autoPlayAnimationDuration: const Duration(
+                                  milliseconds: 500,
+                                ),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                onPageChanged: (index, reason) {},
+                              ),
+                            ),
+                            const Page4(),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
     );
+  }
+}
+
+class StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double height;
+  final Widget child;
+
+  StickyHeaderDelegate({
+    required this.height,
+    required this.child,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(child: child);
+  }
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  double get minExtent => height;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }
