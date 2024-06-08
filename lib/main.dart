@@ -2,11 +2,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
+import 'package:jhdkwedding/widgets/gallery.dart';
 import 'package:jhdkwedding/widgets/page1.dart';
 import 'package:jhdkwedding/widgets/page2.dart';
 import 'package:jhdkwedding/widgets/page3.dart';
 import 'package:jhdkwedding/widgets/page4.dart';
 import 'package:jhdkwedding/widgets/posting.dart';
+import 'package:jhdkwedding/widgets/share.dart';
+import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,6 +21,10 @@ Future<void> main() async {
     url: 'https://jdpuymhlqtfpzwbfzvvi.supabase.co',
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkcHV5bWhscXRmcHp3YmZ6dnZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQzNjU1MDEsImV4cCI6MjAyOTk0MTUwMX0.Y1i7CQ2ZYnQ2rQNa99jLfbXVtpSrBH1tBwuTW-j__8g',
+  );
+
+  KakaoSdk.init(
+    javaScriptAppKey: 'e2c3d60e13cadd32ee10154b420cf56f',
   );
   runApp(const JHDKWedding());
 }
@@ -96,15 +103,16 @@ class _MainScreenState extends State<MainScreen> {
 
   void _getDatabase() async {
     _section1 = await supabase.from('photos').select().eq('section', 1);
+    _section2 = await supabase.from('photos').select().eq('section', 2);
+
     for (Map<String, dynamic> data in _section1) {
       if (!mounted) return;
       await precacheImage(Image.network(data['url']).image, context);
     }
-    _section2 = await supabase.from('photos').select().eq('section', 2);
-    for (Map<String, dynamic> data in _section2) {
-      if (!mounted) return;
-      await precacheImage(Image.network(data['url']).image, context);
-    }
+    // for (Map<String, dynamic> data in _section2) {
+    //   if (!mounted) return;
+    //   await precacheImage(Image.network(data['url']).image, context);
+    // }
     setState(() {
       _isLoading = false;
     });
@@ -395,6 +403,8 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                             const Page4(),
+                            const Gallery(),
+                            const ShareWidget(),
                           ],
                         ),
                       ),

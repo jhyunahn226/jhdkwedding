@@ -4,7 +4,7 @@ class ColorEnum {
   static const black = Color(0xFF000000);
   static const white = Color(0xFFFFFFFF);
   static const grey = Color(0xFF808080);
-  static const darkgrey = Color(0xFF505050);
+  static const darkgrey = Color(0xFF323232);
   static const lightgrey = Color(0xFFD3D3D3);
   static const red = Color(0xFFBE2623);
   static const lightred = Color(0xFFE63946);
