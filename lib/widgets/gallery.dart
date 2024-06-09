@@ -21,9 +21,6 @@ class _GalleryState extends State<Gallery> {
   int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
 
-  final double _windowWidth = 0;
-  final double _windowHeight = 0;
-
   @override
   void initState() {
     super.initState();

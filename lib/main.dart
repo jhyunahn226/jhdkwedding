@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/constants.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
+import 'package:jhdkwedding/widgets/footer.dart';
 import 'package:jhdkwedding/widgets/gallery.dart';
 import 'package:jhdkwedding/widgets/page1.dart';
 import 'package:jhdkwedding/widgets/page2.dart';
@@ -54,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
   bool _isLoading = true;
 
   final ScrollController _scrollController = ScrollController();
-  double _scrollPercentage = 0.0;
+  // double _scrollPercentage = 0.0;
 
   final CarouselController _section1Controller = CarouselController();
   List<Map<String, dynamic>> _section1 = [];
@@ -68,12 +69,12 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _getDatabase();
-    _scrollController.addListener(_scrollListener);
+    // _scrollController.addListener(_scrollListener);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_scrollListener);
+    // _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
   }
@@ -99,14 +100,14 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void _scrollListener() {
-    double maxScroll = _scrollController.position.maxScrollExtent;
-    double currentScroll = _scrollController.position.pixels;
-    double percentage = currentScroll / maxScroll;
-    setState(() {
-      _scrollPercentage = percentage.isFinite ? percentage : 0.0;
-    });
-  }
+  // void _scrollListener() {
+  //   double maxScroll = _scrollController.position.maxScrollExtent;
+  //   double currentScroll = _scrollController.position.pixels;
+  //   double percentage = currentScroll / maxScroll;
+  //   setState(() {
+  //     _scrollPercentage = percentage.isFinite ? percentage : 0.0;
+  //   });
+  // }
 
   void _addLike(int id) {
     var item = _section1.firstWhere((element) => element['id'] == id);
@@ -391,6 +392,7 @@ class _MainScreenState extends State<MainScreen> {
                             const Gallery(),
                             Gaps.v40,
                             const ShareWidget(),
+                            const Footer(),
                           ],
                         ),
                       ),
