@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:jhdkwedding/constants/enum.dart';
@@ -17,6 +19,9 @@ class _GalleryState extends State<Gallery> {
   List<Map<String, dynamic>> _photos = [];
   int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
+
+  final double _windowWidth = 0;
+  final double _windowHeight = 0;
 
   @override
   void initState() {
@@ -60,7 +65,7 @@ class _GalleryState extends State<Gallery> {
                     return Padding(
                       padding: const EdgeInsets.all(Sizes.size8),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                        // mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.network(
@@ -114,7 +119,8 @@ class _GalleryState extends State<Gallery> {
                   options: CarouselOptions(
                     initialPage: _currentIndex,
                     viewportFraction: 1,
-                    aspectRatio: 1 / 2,
+                    aspectRatio: min(MediaQuery.of(context).size.width, 500) /
+                        MediaQuery.of(context).size.height,
                     onPageChanged: (newIndex, reason) {
                       setDialogState(() {
                         _currentIndex = newIndex;
@@ -164,18 +170,12 @@ class _GalleryState extends State<Gallery> {
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
                                 );
-                                setDialogState(() {
-                                  _currentIndex--;
-                                });
                               } else {
                                 _carouselController.animateToPage(
                                   _photos.length - 1,
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
                                 );
-                                setDialogState(() {
-                                  _currentIndex = _photos.length - 1;
-                                });
                               }
                             },
                             icon: const Icon(
@@ -191,18 +191,12 @@ class _GalleryState extends State<Gallery> {
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
                                 );
-                                setDialogState(() {
-                                  _currentIndex++;
-                                });
                               } else {
                                 _carouselController.animateToPage(
                                   0,
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
                                 );
-                                setDialogState(() {
-                                  _currentIndex = 0;
-                                });
                               }
                             },
                             icon: const Icon(
