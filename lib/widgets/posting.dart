@@ -49,12 +49,7 @@ class _PostingState extends State<Posting> {
       setState(() => _isLikeTouched = false);
     });
 
-    final result = await supabase
-        .from('photos')
-        .update({'likes': _likes})
-        .eq('id', widget.id)
-        .select();
-    print(result);
+    supabase.from('photos').update({'likes': _likes}).eq('id', widget.id);
   }
 
   @override
