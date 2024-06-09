@@ -26,6 +26,7 @@ final appTheme = ThemeData(
   dialogTheme: const DialogTheme(
     surfaceTintColor: Colors.transparent,
     backgroundColor: ColorEnum.white,
+    shape: LinearBorder(),
   ),
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: ColorEnum.white,

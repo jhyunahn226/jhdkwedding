@@ -70,7 +70,7 @@ class ShareWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: Sizes.size60,
+      height: Sizes.size48,
       color: ColorEnum.darkgrey,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +80,7 @@ class ShareWidget extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             child: Image.asset(
               'assets/icons/kakaotalk.png',
-              width: Sizes.size36,
+              width: Sizes.size24,
             ),
           ),
           Gaps.h40,
@@ -95,7 +95,7 @@ class ShareWidget extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             child: Image.asset(
               'assets/icons/link.png',
-              width: Sizes.size36,
+              width: Sizes.size24,
             ),
           ),
         ],
