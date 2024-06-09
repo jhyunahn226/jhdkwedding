@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:jhdkwedding/constants/constants.dart';
 import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
@@ -132,7 +133,7 @@ class _GalleryState extends State<Gallery> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(Sizes.size20),
+                      padding: const EdgeInsets.only(left: Sizes.size20),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.height / 2.1,
                         child: Row(
@@ -144,68 +145,56 @@ class _GalleryState extends State<Gallery> {
                                 color: ColorEnum.white,
                               ),
                             ),
-                            IconButton(
+                            IconButtonWithShadow(
                               onPressed: () =>
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(),
-                              icon: const Icon(
-                                Icons.close,
-                                color: ColorEnum.white,
-                              ),
+                              icon: Icons.close,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(Sizes.size20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (_currentIndex > 0) {
-                                _carouselController.animateToPage(
-                                  _currentIndex - 1,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                              } else {
-                                _carouselController.animateToPage(
-                                  _photos.length - 1,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                              }
-                            },
-                            icon: const Icon(
-                              Icons.chevron_left,
-                              color: ColorEnum.white,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              if (_currentIndex < _photos.length - 1) {
-                                _carouselController.animateToPage(
-                                  _currentIndex + 1,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                              } else {
-                                _carouselController.animateToPage(
-                                  0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                              }
-                            },
-                            icon: const Icon(
-                              Icons.chevron_right,
-                              color: ColorEnum.white,
-                            ),
-                          ),
-                        ],
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButtonWithShadow(
+                          onPressed: () {
+                            if (_currentIndex > 0) {
+                              _carouselController.animateToPage(
+                                _currentIndex - 1,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            } else {
+                              _carouselController.animateToPage(
+                                _photos.length - 1,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                          icon: Icons.chevron_left,
+                        ),
+                        IconButtonWithShadow(
+                          onPressed: () {
+                            if (_currentIndex < _photos.length - 1) {
+                              _carouselController.animateToPage(
+                                _currentIndex + 1,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            } else {
+                              _carouselController.animateToPage(
+                                0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                          icon: Icons.chevron_right,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: Sizes.size80),
                   ],

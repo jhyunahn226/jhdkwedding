@@ -58,3 +58,43 @@ extension ShowSnackBar on BuildContext {
     showSnackBar(message: message, backgroundColor: Colors.red);
   }
 }
+
+class IconButtonWithShadow extends StatelessWidget {
+  final VoidCallback onPressed;
+  final IconData icon;
+  final Color iconColor;
+
+  const IconButtonWithShadow({
+    super.key,
+    required this.onPressed,
+    required this.icon,
+    this.iconColor = Colors.white,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Stack(
+        children: [
+          // The shadow behind the icon
+          Positioned(
+            left: 2,
+            top: 2,
+            child: Icon(
+              icon,
+              color: Colors.black.withOpacity(0.5),
+              size: 30,
+            ),
+          ),
+          // The actual icon
+          Icon(
+            icon,
+            color: iconColor,
+            size: 30,
+          ),
+        ],
+      ),
+    );
+  }
+}
