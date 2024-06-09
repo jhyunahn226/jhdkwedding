@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:jhdkwedding/constants/constants.dart';
 import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
@@ -36,7 +37,7 @@ class _PostingState extends State<Posting> {
     _likes = widget.likes;
   }
 
-  void _onLikeTap() {
+  void _onLikeTap() async {
     _likes++;
     widget.addLike(widget.id);
     setState(() => _isLikeTouched = true);
@@ -47,6 +48,13 @@ class _PostingState extends State<Posting> {
       if (!mounted) return;
       setState(() => _isLikeTouched = false);
     });
+
+    final result = await supabase
+        .from('photos')
+        .update({'likes': _likes})
+        .eq('id', widget.id)
+        .select();
+    print(result);
   }
 
   @override
