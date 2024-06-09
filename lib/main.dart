@@ -82,14 +82,18 @@ class _MainScreenState extends State<MainScreen> {
     _section1 = await supabase.from('photos').select().eq('section', 1);
     _section2 = await supabase.from('photos').select().eq('section', 2);
 
-    for (Map<String, dynamic> data in _section1) {
-      if (!mounted) return;
-      await precacheImage(Image.network(data['url']).image, context);
-    }
-    // for (Map<String, dynamic> data in _section2) {
+    /* Precache */
+    // for (Map<String, dynamic> data in _section1) {
     //   if (!mounted) return;
     //   await precacheImage(Image.network(data['url']).image, context);
     // }
+    if (!mounted) return;
+    await precacheImage(
+      Image.network(
+        'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/main.jpg',
+      ).image,
+      context,
+    );
     setState(() {
       _isLoading = false;
     });
@@ -114,16 +118,14 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset(
-                    'assets/lotties/loading.json',
-                    width: Sizes.size150,
+          ? Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/onboarding.JPG',
                   ),
-                  const Text('Loading'),
-                ],
+                ),
               ),
             )
           : SafeArea(
@@ -148,7 +150,9 @@ class _MainScreenState extends State<MainScreen> {
                     physics: const ClampingScrollPhysics(),
                     slivers: [
                       SliverToBoxAdapter(
-                        child: Image.asset('assets/photos/onboarding3.jpg'),
+                        child: Image.network(
+                          'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/main.jpg',
+                        ),
                       ),
                       // SliverPersistentHeader(
                       //   pinned: true,
