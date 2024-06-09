@@ -20,8 +20,8 @@ class Page4 extends StatelessWidget {
           const Align(
             alignment: Alignment.center,
             child: SizedBox(
-              height: Sizes.size40,
-              child: VerticalDivider(
+              width: Sizes.size80,
+              child: Divider(
                 color: ColorEnum.black,
               ),
             ),
@@ -30,7 +30,7 @@ class Page4 extends StatelessWidget {
           const Align(
             alignment: Alignment.center,
             child: Text(
-              "안재현 & 김다경 스럽게",
+              '"안재현 & 김다경 스럽게"',
               style: TextStyle(
                 fontFamily: 'Ownglyph-meetme',
                 fontSize: Sizes.size24,

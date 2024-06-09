@@ -118,14 +118,16 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/onboarding.JPG',
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    'assets/lotties/loading.json',
+                    width: Sizes.size150,
                   ),
-                ),
+                  const Text('Loading...'),
+                ],
               ),
             )
           : SafeArea(
