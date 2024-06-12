@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:jhdkwedding/constants/constants.dart';
+import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 import 'package:jhdkwedding/widgets/footer.dart';
@@ -11,6 +12,7 @@ import 'package:jhdkwedding/widgets/page3.dart';
 import 'package:jhdkwedding/widgets/page4.dart';
 import 'package:jhdkwedding/widgets/posting.dart';
 import 'package:jhdkwedding/widgets/share.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -53,6 +55,9 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   bool _isLoading = true;
+  bool _isMusicPlaying = false;
+  bool _showGuide = true;
+  final player = AudioPlayer();
 
   final ScrollController _scrollController = ScrollController();
   // double _scrollPercentage = 0.0;
@@ -69,6 +74,11 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _getDatabase();
+    Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        _showGuide = false;
+      });
+    });
     // _scrollController.addListener(_scrollListener);
   }
 
@@ -80,14 +90,13 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _getDatabase() async {
+    await player.setUrl(
+      'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/music/InSummer.mp3',
+    );
+    await player.setClip(start: const Duration(seconds: 5));
     _section1 = await supabase.from('photos').select().eq('section', 1);
     _section2 = await supabase.from('photos').select().eq('section', 2);
 
-    /* Precache */
-    // for (Map<String, dynamic> data in _section1) {
-    //   if (!mounted) return;
-    //   await precacheImage(Image.network(data['url']).image, context);
-    // }
     if (!mounted) return;
     await precacheImage(
       Image.network(
@@ -95,6 +104,7 @@ class _MainScreenState extends State<MainScreen> {
       ).image,
       context,
     );
+
     setState(() {
       _isLoading = false;
     });
@@ -148,81 +158,240 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                   // color: ColorEnum.background,
-                  child: CustomScrollView(
-                    controller: _scrollController,
-                    physics: const ClampingScrollPhysics(),
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: Image.network(
-                          'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/main.jpg',
-                        ),
-                      ),
-                      // SliverPersistentHeader(
-                      //   pinned: true,
-                      //   delegate: StickyHeaderDelegate(
-                      //     height: Sizes.size40,
-                      //     child: Container(
-                      //       decoration: const BoxDecoration(
-                      //         image: DecorationImage(
-                      //           fit: BoxFit.cover,
-                      //           image: AssetImage(
-                      //             'assets/photos/paper.jpg',
-                      //           ),
-                      //         ),
-                      //       ),
-                      //       child: Column(
-                      //         children: [
-                      //           LayoutBuilder(
-                      //             builder: (BuildContext context,
-                      //                 BoxConstraints constraints) {
-                      //               double indicatorSize =
-                      //                   Sizes.size60; //인디케이터 전체 너비
-                      //               double translateValue =
-                      //                   constraints.maxWidth *
-                      //                           _scrollPercentage -
-                      //                       indicatorSize / 2; //인디케이터를 이동시킬 거리
+                  child: Stack(
+                    children: [
+                      CustomScrollView(
+                        controller: _scrollController,
+                        physics: const ClampingScrollPhysics(),
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: Image.network(
+                              'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/photos/main.jpg',
+                            ),
+                          ),
+                          // SliverPersistentHeader(
+                          //   pinned: true,
+                          //   delegate: StickyHeaderDelegate(
+                          //     height: Sizes.size40,
+                          //     child: Container(
+                          //       decoration: const BoxDecoration(
+                          //         image: DecorationImage(
+                          //           fit: BoxFit.cover,
+                          //           image: AssetImage(
+                          //             'assets/photos/paper.jpg',
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       child: Column(
+                          //         children: [
+                          //           LayoutBuilder(
+                          //             builder: (BuildContext context,
+                          //                 BoxConstraints constraints) {
+                          //               double indicatorSize =
+                          //                   Sizes.size60; //인디케이터 전체 너비
+                          //               double translateValue =
+                          //                   constraints.maxWidth *
+                          //                           _scrollPercentage -
+                          //                       indicatorSize / 2; //인디케이터를 이동시킬 거리
 
-                      //               return Transform.translate(
-                      //                 offset: Offset(translateValue, 0),
-                      //                 child: Align(
-                      //                   alignment: Alignment.centerLeft,
-                      //                   child: SizedBox(
-                      //                     width: indicatorSize,
-                      //                     child: const Column(
-                      //                       children: [
-                      //                         Text(
-                      //                           'HI',
-                      //                           style: TextStyle(
-                      //                             color: ColorEnum.bluegreen,
-                      //                             fontSize: Sizes.size14,
-                      //                             fontWeight: FontWeight.w700,
-                      //                             height: 0,
-                      //                           ),
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //               );
-                      //             },
-                      //           ),
-                      //           LinearPercentIndicator(
-                      //             percent: _scrollPercentage,
-                      //             progressColor: ColorEnum.darkgreen,
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      SliverToBoxAdapter(
-                        child: Column(
-                          children: <Widget>[
-                            const Page1(),
-                            Stack(
-                              children: [
+                          //               return Transform.translate(
+                          //                 offset: Offset(translateValue, 0),
+                          //                 child: Align(
+                          //                   alignment: Alignment.centerLeft,
+                          //                   child: SizedBox(
+                          //                     width: indicatorSize,
+                          //                     child: const Column(
+                          //                       children: [
+                          //                         Text(
+                          //                           'HI',
+                          //                           style: TextStyle(
+                          //                             color: ColorEnum.bluegreen,
+                          //                             fontSize: Sizes.size14,
+                          //                             fontWeight: FontWeight.w700,
+                          //                             height: 0,
+                          //                           ),
+                          //                         ),
+                          //                       ],
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               );
+                          //             },
+                          //           ),
+                          //           LinearPercentIndicator(
+                          //             percent: _scrollPercentage,
+                          //             progressColor: ColorEnum.darkgreen,
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          SliverToBoxAdapter(
+                            child: Column(
+                              children: <Widget>[
+                                const Page1(),
+                                Stack(
+                                  children: [
+                                    CarouselSlider.builder(
+                                      carouselController: _section1Controller,
+                                      itemCount: _section1.length,
+                                      itemBuilder:
+                                          (context, index, realIndex) =>
+                                              Posting(
+                                        id: _section1[index]['id'],
+                                        url: _section1[index]['url'],
+                                        likes: _section1[index]['likes'],
+                                        description: _section1[index]
+                                            ['description'],
+                                        addLike: _addLike,
+                                      ),
+                                      options: CarouselOptions(
+                                        // height: 400,
+                                        aspectRatio: 5 / 4,
+                                        viewportFraction: 1,
+                                        initialPage: _section1Slide,
+                                        autoPlay: true,
+                                        autoPlayInterval: const Duration(
+                                          milliseconds: 4000,
+                                        ),
+                                        autoPlayAnimationDuration:
+                                            const Duration(
+                                          milliseconds: 500,
+                                        ),
+                                        autoPlayCurve: Curves.fastOutSlowIn,
+                                        onPageChanged: (index, reason) {
+                                          setState(
+                                              () => _section1Slide = index);
+                                        },
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: _section1
+                                            .asMap()
+                                            .entries
+                                            .map((entry) {
+                                          return GestureDetector(
+                                            onTap: () => _section1Controller
+                                                .animateToPage(
+                                              entry.key,
+                                            ),
+                                            behavior: HitTestBehavior.opaque,
+                                            child: Container(
+                                              width: Sizes.size8,
+                                              height: Sizes.size8,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 4.0),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: (Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.dark
+                                                        ? Colors.white
+                                                        : Colors.black)
+                                                    .withOpacity(
+                                                        _section1Slide ==
+                                                                entry.key
+                                                            ? 0.9
+                                                            : 0.4),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Page2(),
+                                Stack(
+                                  children: [
+                                    CarouselSlider.builder(
+                                      carouselController: _section2Controller,
+                                      itemCount: _section2.length,
+                                      itemBuilder:
+                                          (context, index, realIndex) =>
+                                              Posting(
+                                        id: _section2[index]['id'],
+                                        url: _section2[index]['url'],
+                                        likes: _section2[index]['likes'],
+                                        description: _section2[index]
+                                            ['description'],
+                                        addLike: _addLike,
+                                      ),
+                                      options: CarouselOptions(
+                                        // height: 400,
+                                        aspectRatio: 3 / 5,
+                                        viewportFraction: 1,
+                                        initialPage: _section2Slide,
+                                        autoPlay: true,
+                                        autoPlayInterval: const Duration(
+                                          milliseconds: 4000,
+                                        ),
+                                        autoPlayAnimationDuration:
+                                            const Duration(
+                                          milliseconds: 500,
+                                        ),
+                                        autoPlayCurve: Curves.fastOutSlowIn,
+                                        onPageChanged: (index, reason) {
+                                          setState(
+                                              () => _section2Slide = index);
+                                        },
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: _section2
+                                            .asMap()
+                                            .entries
+                                            .map((entry) {
+                                          return GestureDetector(
+                                            onTap: () => _section2Controller
+                                                .animateToPage(
+                                              entry.key,
+                                            ),
+                                            behavior: HitTestBehavior.opaque,
+                                            child: Container(
+                                              width: Sizes.size8,
+                                              height: Sizes.size8,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 4.0),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: (Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.dark
+                                                        ? Colors.white
+                                                        : Colors.black)
+                                                    .withOpacity(
+                                                        _section2Slide ==
+                                                                entry.key
+                                                            ? 0.9
+                                                            : 0.4),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Page3(),
                                 CarouselSlider.builder(
-                                  carouselController: _section1Controller,
                                   itemCount: _section1.length,
                                   itemBuilder: (context, index, realIndex) =>
                                       Posting(
@@ -237,7 +406,7 @@ class _MainScreenState extends State<MainScreen> {
                                     // height: 400,
                                     aspectRatio: 5 / 4,
                                     viewportFraction: 1,
-                                    initialPage: _section1Slide,
+                                    initialPage: 0,
                                     autoPlay: true,
                                     autoPlayInterval: const Duration(
                                       milliseconds: 4000,
@@ -246,153 +415,79 @@ class _MainScreenState extends State<MainScreen> {
                                       milliseconds: 500,
                                     ),
                                     autoPlayCurve: Curves.fastOutSlowIn,
-                                    onPageChanged: (index, reason) {
-                                      setState(() => _section1Slide = index);
-                                    },
+                                    onPageChanged: (index, reason) {},
                                   ),
                                 ),
-                                Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children:
-                                        _section1.asMap().entries.map((entry) {
-                                      return GestureDetector(
-                                        onTap: () =>
-                                            _section1Controller.animateToPage(
-                                          entry.key,
-                                        ),
-                                        behavior: HitTestBehavior.opaque,
-                                        child: Container(
-                                          width: Sizes.size8,
-                                          height: Sizes.size8,
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 8.0, horizontal: 4.0),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: (Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.dark
-                                                    ? Colors.white
-                                                    : Colors.black)
-                                                .withOpacity(
-                                                    _section1Slide == entry.key
-                                                        ? 0.9
-                                                        : 0.4),
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
+                                const Page4(),
+                                Gaps.v40,
+                                const Gallery(),
+                                Gaps.v40,
+                                const ShareWidget(),
+                                const Footer(),
                               ],
                             ),
-                            const Page2(),
-                            Stack(
-                              children: [
-                                CarouselSlider.builder(
-                                  carouselController: _section2Controller,
-                                  itemCount: _section2.length,
-                                  itemBuilder: (context, index, realIndex) =>
-                                      Posting(
-                                    id: _section2[index]['id'],
-                                    url: _section2[index]['url'],
-                                    likes: _section2[index]['likes'],
-                                    description: _section2[index]
-                                        ['description'],
-                                    addLike: _addLike,
-                                  ),
-                                  options: CarouselOptions(
-                                    // height: 400,
-                                    aspectRatio: 3 / 5,
-                                    viewportFraction: 1,
-                                    initialPage: _section2Slide,
-                                    autoPlay: true,
-                                    autoPlayInterval: const Duration(
-                                      milliseconds: 4000,
-                                    ),
-                                    autoPlayAnimationDuration: const Duration(
-                                      milliseconds: 500,
-                                    ),
-                                    autoPlayCurve: Curves.fastOutSlowIn,
-                                    onPageChanged: (index, reason) {
-                                      setState(() => _section2Slide = index);
-                                    },
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children:
-                                        _section2.asMap().entries.map((entry) {
-                                      return GestureDetector(
-                                        onTap: () =>
-                                            _section2Controller.animateToPage(
-                                          entry.key,
-                                        ),
-                                        behavior: HitTestBehavior.opaque,
-                                        child: Container(
-                                          width: Sizes.size8,
-                                          height: Sizes.size8,
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 8.0, horizontal: 4.0),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: (Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.dark
-                                                    ? Colors.white
-                                                    : Colors.black)
-                                                .withOpacity(
-                                                    _section2Slide == entry.key
-                                                        ? 0.9
-                                                        : 0.4),
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const Page3(),
-                            CarouselSlider.builder(
-                              itemCount: _section1.length,
-                              itemBuilder: (context, index, realIndex) =>
-                                  Posting(
-                                id: _section1[index]['id'],
-                                url: _section1[index]['url'],
-                                likes: _section1[index]['likes'],
-                                description: _section1[index]['description'],
-                                addLike: _addLike,
-                              ),
-                              options: CarouselOptions(
-                                // height: 400,
-                                aspectRatio: 5 / 4,
-                                viewportFraction: 1,
-                                initialPage: 0,
-                                autoPlay: true,
-                                autoPlayInterval: const Duration(
-                                  milliseconds: 4000,
-                                ),
-                                autoPlayAnimationDuration: const Duration(
-                                  milliseconds: 500,
-                                ),
-                                autoPlayCurve: Curves.fastOutSlowIn,
-                                onPageChanged: (index, reason) {},
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                if (_isMusicPlaying) {
+                                  player.pause();
+                                  _isMusicPlaying = false;
+                                } else {
+                                  player.play();
+                                  _showGuide = false;
+                                  _isMusicPlaying = true;
+                                }
+                                setState(() {});
+                              },
+                              icon: Icon(
+                                _isMusicPlaying
+                                    ? Icons.volume_up_rounded
+                                    : Icons.volume_off_rounded,
                               ),
                             ),
-                            const Page4(),
-                            Gaps.v40,
-                            const Gallery(),
-                            Gaps.v40,
-                            const ShareWidget(),
-                            const Footer(),
+                            if (_showGuide)
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: ColorEnum.lightgrey.withOpacity(0.8),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(8),
+                                    bottomRight: Radius.circular(8),
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: Sizes.size10,
+                                  vertical: Sizes.size2,
+                                ),
+                                margin: const EdgeInsets.only(
+                                  right: Sizes.size20,
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      '누르면 기분이 좋아질 거에요!',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: 'KyoboHandwriting2019',
+                                        // color: ColorEnum.white,
+                                      ),
+                                    ),
+                                    Gaps.h4,
+                                    Image.asset(
+                                      'assets/images/olaf_face.png',
+                                      height: Sizes.size28,
+                                    ),
+                                  ],
+                                ),
+                              ),
                           ],
                         ),
                       ),

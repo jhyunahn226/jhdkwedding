@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "syde",
+            "name": "jhdkwedding",
             "request": "launch",
             "type": "dart",
             "args": ["--web-port", "3000"]
