@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jhdkwedding/constants/enum.dart';
 import 'package:jhdkwedding/constants/gaps.dart';
 import 'package:jhdkwedding/constants/sizes.dart';
 
@@ -9,24 +8,10 @@ class Page4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: Sizes.size40,
-        left: Sizes.size40,
-        right: Sizes.size40,
-      ),
+      padding: const EdgeInsets.all(Sizes.size40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: Sizes.size80,
-              child: Divider(
-                color: ColorEnum.black,
-              ),
-            ),
-          ),
-          Gaps.v20,
           const Align(
             alignment: Alignment.center,
             child: Text(

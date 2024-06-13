@@ -70,11 +70,15 @@ class _MainScreenState extends State<MainScreen> {
   List<Map<String, dynamic>> _section2 = [];
   int _section2Slide = 0;
 
+  final CarouselController _section3Controller = CarouselController();
+  List<Map<String, dynamic>> _section3 = [];
+  final int _section3Slide = 0;
+
   @override
   void initState() {
     super.initState();
     _getDatabase();
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 6), () {
       setState(() {
         _showGuide = false;
       });
@@ -96,6 +100,7 @@ class _MainScreenState extends State<MainScreen> {
     await player.setClip(start: const Duration(seconds: 5));
     _section1 = await supabase.from('photos').select().eq('section', 1);
     _section2 = await supabase.from('photos').select().eq('section', 2);
+    _section3 = await supabase.from('photos').select().eq('section', 3);
 
     if (!mounted) return;
     await precacheImage(
@@ -119,9 +124,24 @@ class _MainScreenState extends State<MainScreen> {
   //   });
   // }
 
-  void _addLike(int id) {
-    var item = _section1.firstWhere((element) => element['id'] == id);
-    item['likes']++;
+  void _addLike({required int section, required int id}) {
+    switch (section) {
+      case 1:
+        var item = _section1.firstWhere((element) => element['id'] == id);
+        item['likes']++;
+        break;
+      case 2:
+        var item = _section2.firstWhere((element) => element['id'] == id);
+        item['likes']++;
+        break;
+      case 3:
+        var item = _section3.firstWhere((element) => element['id'] == id);
+        item['likes']++;
+        break;
+      default:
+        return;
+    }
+
     setState(() {});
   }
 
@@ -239,6 +259,7 @@ class _MainScreenState extends State<MainScreen> {
                                       itemBuilder:
                                           (context, index, realIndex) =>
                                               Posting(
+                                        section: 1,
                                         id: _section1[index]['id'],
                                         url: _section1[index]['url'],
                                         likes: _section1[index]['likes'],
@@ -319,6 +340,7 @@ class _MainScreenState extends State<MainScreen> {
                                       itemBuilder:
                                           (context, index, realIndex) =>
                                               Posting(
+                                        section: 2,
                                         id: _section2[index]['id'],
                                         url: _section2[index]['url'],
                                         likes: _section2[index]['likes'],
@@ -328,7 +350,7 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                       options: CarouselOptions(
                                         // height: 400,
-                                        aspectRatio: 3 / 5,
+                                        aspectRatio: 5 / 4,
                                         viewportFraction: 1,
                                         initialPage: _section2Slide,
                                         autoPlay: true,
@@ -391,37 +413,85 @@ class _MainScreenState extends State<MainScreen> {
                                   ],
                                 ),
                                 const Page3(),
-                                CarouselSlider.builder(
-                                  itemCount: _section1.length,
-                                  itemBuilder: (context, index, realIndex) =>
-                                      Posting(
-                                    id: _section1[index]['id'],
-                                    url: _section1[index]['url'],
-                                    likes: _section1[index]['likes'],
-                                    description: _section1[index]
-                                        ['description'],
-                                    addLike: _addLike,
-                                  ),
-                                  options: CarouselOptions(
-                                    // height: 400,
-                                    aspectRatio: 5 / 4,
-                                    viewportFraction: 1,
-                                    initialPage: 0,
-                                    autoPlay: true,
-                                    autoPlayInterval: const Duration(
-                                      milliseconds: 4000,
+                                Stack(
+                                  children: [
+                                    CarouselSlider.builder(
+                                      itemCount: _section3.length,
+                                      itemBuilder:
+                                          (context, index, realIndex) =>
+                                              Posting(
+                                        section: 3,
+                                        id: _section3[index]['id'],
+                                        url: _section3[index]['url'],
+                                        likes: _section3[index]['likes'],
+                                        description: _section3[index]
+                                            ['description'],
+                                        addLike: _addLike,
+                                      ),
+                                      options: CarouselOptions(
+                                        // height: 400,
+                                        aspectRatio: 5 / 4,
+                                        viewportFraction: 1,
+                                        initialPage: 0,
+                                        autoPlay: true,
+                                        autoPlayInterval: const Duration(
+                                          milliseconds: 4000,
+                                        ),
+                                        autoPlayAnimationDuration:
+                                            const Duration(
+                                          milliseconds: 500,
+                                        ),
+                                        autoPlayCurve: Curves.fastOutSlowIn,
+                                        onPageChanged: (index, reason) {},
+                                      ),
                                     ),
-                                    autoPlayAnimationDuration: const Duration(
-                                      milliseconds: 500,
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: _section3
+                                            .asMap()
+                                            .entries
+                                            .map((entry) {
+                                          return GestureDetector(
+                                            onTap: () => _section3Controller
+                                                .animateToPage(
+                                              entry.key,
+                                            ),
+                                            behavior: HitTestBehavior.opaque,
+                                            child: Container(
+                                              width: Sizes.size8,
+                                              height: Sizes.size8,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 4.0),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: (Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.dark
+                                                        ? Colors.white
+                                                        : Colors.black)
+                                                    .withOpacity(
+                                                        _section3Slide ==
+                                                                entry.key
+                                                            ? 0.9
+                                                            : 0.4),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
                                     ),
-                                    autoPlayCurve: Curves.fastOutSlowIn,
-                                    onPageChanged: (index, reason) {},
-                                  ),
+                                  ],
                                 ),
                                 const Page4(),
                                 Gaps.v40,
                                 const Gallery(),
-                                Gaps.v40,
                                 const ShareWidget(),
                                 const Footer(),
                               ],
@@ -472,18 +542,18 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 child: Row(
                                   children: [
+                                    Image.asset(
+                                      'assets/images/olaf_face.png',
+                                      height: Sizes.size28,
+                                    ),
+                                    Gaps.h6,
                                     const Text(
-                                      '누르면 기분이 좋아질 거에요!',
+                                      '누르면 기분이 좋아질 거에요! ▲',
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontFamily: 'KyoboHandwriting2019',
                                         // color: ColorEnum.white,
                                       ),
-                                    ),
-                                    Gaps.h4,
-                                    Image.asset(
-                                      'assets/images/olaf_face.png',
-                                      height: Sizes.size28,
                                     ),
                                   ],
                                 ),

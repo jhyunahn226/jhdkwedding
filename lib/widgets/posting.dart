@@ -8,6 +8,7 @@ import 'package:jhdkwedding/constants/sizes.dart';
 import 'package:lottie/lottie.dart';
 
 class Posting extends StatefulWidget {
+  final int section;
   final int id;
   final String url;
   final int likes;
@@ -15,6 +16,7 @@ class Posting extends StatefulWidget {
   final Function addLike;
   const Posting({
     super.key,
+    required this.section,
     required this.id,
     required this.url,
     required this.likes,
@@ -39,7 +41,10 @@ class _PostingState extends State<Posting> {
 
   void _onLikeTap() async {
     _likes++;
-    widget.addLike(widget.id);
+    widget.addLike(
+      section: widget.section,
+      id: widget.id,
+    );
     setState(() => _isLikeTouched = true);
 
     _likeTimer?.cancel(); //기존의 타이머가 있다면 취소

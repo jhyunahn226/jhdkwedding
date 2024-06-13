@@ -29,11 +29,6 @@ class _GalleryState extends State<Gallery> {
 
   void _getDatabase() async {
     _photos = await supabase.from('photos').select();
-    /* Precache */
-    for (Map<String, dynamic> data in _photos) {
-      if (!mounted) return;
-      await precacheImage(NetworkImage(data['url']), context);
-    }
     setState(() {});
   }
 
@@ -223,7 +218,7 @@ class _GalleryState extends State<Gallery> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Gaps.v40,
+        Gaps.v20,
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
