@@ -58,6 +58,7 @@ class _MainScreenState extends State<MainScreen> {
   bool _isMusicPlaying = false;
   bool _showGuide = true;
   final player = AudioPlayer();
+  List<Map<String, dynamic>> _photos = [];
 
   final ScrollController _scrollController = ScrollController();
   // double _scrollPercentage = 0.0;
@@ -98,10 +99,13 @@ class _MainScreenState extends State<MainScreen> {
       'https://jdpuymhlqtfpzwbfzvvi.supabase.co/storage/v1/object/public/music/InSummer.mp3',
     );
     await player.setClip(start: const Duration(seconds: 5));
-    _section1 = await supabase.from('photos').select().eq('section', 1);
-    _section2 = await supabase.from('photos').select().eq('section', 2);
-    _section3 = await supabase.from('photos').select().eq('section', 3);
 
+    _photos = await supabase.from('photos').select();
+    _section1 = _photos.where((e) => e['section'] == 1).toList();
+    _section2 = _photos.where((e) => e['section'] == 2).toList();
+    _section3 = _photos.where((e) => e['section'] == 3).toList();
+
+    /* Precache */
     if (!mounted) return;
     await precacheImage(
       Image.network(
@@ -109,6 +113,11 @@ class _MainScreenState extends State<MainScreen> {
       ).image,
       context,
     );
+
+    for (Map<String, dynamic> data in _photos) {
+      if (!mounted) return;
+      precacheImage(NetworkImage(data['url']), context);
+    }
 
     setState(() {
       _isLoading = false;
@@ -416,6 +425,7 @@ class _MainScreenState extends State<MainScreen> {
                                 Stack(
                                   children: [
                                     CarouselSlider.builder(
+                                      carouselController: _section3Controller,
                                       itemCount: _section3.length,
                                       itemBuilder:
                                           (context, index, realIndex) =>
@@ -491,7 +501,11 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 const Page4(),
                                 Gaps.v40,
-                                const Gallery(),
+                                // const Sponsor(),
+                                // Gaps.v40,
+                                Gallery(
+                                  photos: _photos,
+                                ),
                                 const ShareWidget(),
                                 const Footer(),
                               ],

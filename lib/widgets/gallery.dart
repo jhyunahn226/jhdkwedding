@@ -9,7 +9,11 @@ import 'package:jhdkwedding/constants/sizes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Gallery extends StatefulWidget {
-  const Gallery({super.key});
+  final List<Map<String, dynamic>> photos;
+  const Gallery({
+    required this.photos,
+    super.key,
+  });
 
   @override
   State<Gallery> createState() => _GalleryState();
@@ -17,20 +21,9 @@ class Gallery extends StatefulWidget {
 
 class _GalleryState extends State<Gallery> {
   final supabase = Supabase.instance.client;
-  List<Map<String, dynamic>> _photos = [];
+
   int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
-
-  @override
-  void initState() {
-    super.initState();
-    _getDatabase();
-  }
-
-  void _getDatabase() async {
-    _photos = await supabase.from('photos').select();
-    setState(() {});
-  }
 
   void _onPhotoTap(int index) {
     setState(() {
@@ -51,10 +44,10 @@ class _GalleryState extends State<Gallery> {
               children: [
                 CarouselSlider.builder(
                   carouselController: _carouselController,
-                  itemCount: _photos.length,
+                  itemCount: widget.photos.length,
                   itemBuilder:
                       (BuildContext context, int itemIndex, int pageViewIndex) {
-                    Map<String, dynamic> photo = _photos[itemIndex];
+                    Map<String, dynamic> photo = widget.photos[itemIndex];
                     return Padding(
                       padding: const EdgeInsets.all(Sizes.size8),
                       child: Column(
@@ -132,7 +125,7 @@ class _GalleryState extends State<Gallery> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${(_currentIndex + 1).toString()} / ${_photos.length.toString()}',
+                              '${(_currentIndex + 1).toString()} / ${widget.photos.length.toString()}',
                               style: const TextStyle(
                                 color: ColorEnum.white,
                               ),
@@ -160,7 +153,7 @@ class _GalleryState extends State<Gallery> {
                               );
                             } else {
                               _carouselController.animateToPage(
-                                _photos.length - 1,
+                                widget.photos.length - 1,
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                               );
@@ -170,7 +163,7 @@ class _GalleryState extends State<Gallery> {
                         ),
                         IconButtonWithShadow(
                           onPressed: () {
-                            if (_currentIndex < _photos.length - 1) {
+                            if (_currentIndex < widget.photos.length - 1) {
                               _carouselController.animateToPage(
                                 _currentIndex + 1,
                                 duration: const Duration(milliseconds: 300),
@@ -226,11 +219,11 @@ class _GalleryState extends State<Gallery> {
             crossAxisCount: 3,
             childAspectRatio: 1,
           ),
-          itemCount: _photos.length,
+          itemCount: widget.photos.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () => _onPhotoTap(index),
             child: Image.network(
-              _photos[index]['url'],
+              widget.photos[index]['url'],
               fit: BoxFit.cover,
             ),
           ),
