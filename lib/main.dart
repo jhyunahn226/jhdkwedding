@@ -73,17 +73,12 @@ class _MainScreenState extends State<MainScreen> {
 
   final CarouselController _section3Controller = CarouselController();
   List<Map<String, dynamic>> _section3 = [];
-  final int _section3Slide = 0;
+  int _section3Slide = 0;
 
   @override
   void initState() {
     super.initState();
     _getDatabase();
-    Future.delayed(const Duration(seconds: 6), () {
-      setState(() {
-        _showGuide = false;
-      });
-    });
     // _scrollController.addListener(_scrollListener);
   }
 
@@ -113,11 +108,22 @@ class _MainScreenState extends State<MainScreen> {
       ).image,
       context,
     );
+    if (!mounted) return;
+    await precacheImage(
+      Image.asset('assets/images/olaf_face.png').image,
+      context,
+    );
 
-    for (Map<String, dynamic> data in _photos) {
-      if (!mounted) return;
-      precacheImage(NetworkImage(data['url']), context);
-    }
+    // for (Map<String, dynamic> data in _photos) {
+    //   if (!mounted) return;
+    //   await precacheImage(NetworkImage(data['url']), context);
+    // }
+
+    Future.delayed(const Duration(seconds: 6), () {
+      setState(() {
+        _showGuide = false;
+      });
+    });
 
     setState(() {
       _isLoading = false;
@@ -292,7 +298,8 @@ class _MainScreenState extends State<MainScreen> {
                                         autoPlayCurve: Curves.fastOutSlowIn,
                                         onPageChanged: (index, reason) {
                                           setState(
-                                              () => _section1Slide = index);
+                                            () => _section1Slide = index,
+                                          );
                                         },
                                       ),
                                     ),
@@ -373,7 +380,8 @@ class _MainScreenState extends State<MainScreen> {
                                         autoPlayCurve: Curves.fastOutSlowIn,
                                         onPageChanged: (index, reason) {
                                           setState(
-                                              () => _section2Slide = index);
+                                            () => _section2Slide = index,
+                                          );
                                         },
                                       ),
                                     ),
@@ -442,7 +450,7 @@ class _MainScreenState extends State<MainScreen> {
                                         // height: 400,
                                         aspectRatio: 5 / 4,
                                         viewportFraction: 1,
-                                        initialPage: 0,
+                                        initialPage: _section3Slide,
                                         autoPlay: true,
                                         autoPlayInterval: const Duration(
                                           milliseconds: 4000,
@@ -452,7 +460,11 @@ class _MainScreenState extends State<MainScreen> {
                                           milliseconds: 500,
                                         ),
                                         autoPlayCurve: Curves.fastOutSlowIn,
-                                        onPageChanged: (index, reason) {},
+                                        onPageChanged: (index, reason) {
+                                          setState(
+                                            () => _section3Slide = index,
+                                          );
+                                        },
                                       ),
                                     ),
                                     Positioned(
